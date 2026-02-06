@@ -7,24 +7,24 @@
  * of AI model predictions through comprehensive multi-dimensional analysis.
  */
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { callAIAgent } from '@/lib/aiAgent'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import {
-  Loader2,
-  ChevronDown,
-  ChevronRight,
-  Download,
-  AlertTriangle,
-  CheckCircle,
-  XCircle,
-  Clock,
-  Trash2,
-  Filter
-} from 'lucide-react'
+  AiOutlineLoading3Quarters,
+  AiOutlineDown,
+  AiOutlineRight,
+  AiOutlineDownload,
+  AiOutlineWarning,
+  AiOutlineCheckCircle,
+  AiOutlineCloseCircle,
+  AiOutlineClockCircle,
+  AiOutlineDelete,
+  AiOutlineFilter
+} from 'react-icons/ai'
 
 // Agent ID
 const MANAGER_AGENT_ID = '698597247551cb7920ffe8ba'
@@ -90,10 +90,10 @@ const getSeverityColor = (level: string): string => {
 
 const getSeverityIcon = (level: string) => {
   const normalized = level.toLowerCase()
-  if (normalized === 'low') return <CheckCircle className="w-4 h-4" />
-  if (normalized === 'medium') return <AlertTriangle className="w-4 h-4" />
-  if (normalized === 'high') return <XCircle className="w-4 h-4" />
-  return <AlertTriangle className="w-4 h-4" />
+  if (normalized === 'low') return <AiOutlineCheckCircle className="w-4 h-4" />
+  if (normalized === 'medium') return <AiOutlineWarning className="w-4 h-4" />
+  if (normalized === 'high') return <AiOutlineCloseCircle className="w-4 h-4" />
+  return <AiOutlineWarning className="w-4 h-4" />
 }
 
 const formatTimestamp = (timestamp: string): string => {
@@ -155,7 +155,7 @@ const DeploymentBadge = ({ status }: { status: string }) => {
 
   return (
     <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border text-xs font-medium ${colorClass}`}>
-      {isReady ? <CheckCircle className="w-4 h-4" /> : <XCircle className="w-4 h-4" />}
+      {isReady ? <AiOutlineCheckCircle className="w-4 h-4" /> : <AiOutlineCloseCircle className="w-4 h-4" />}
       <span>{status}</span>
     </div>
   )
@@ -179,7 +179,7 @@ const CollapsibleCard = ({ title, severity, defaultOpen = false, children }: Col
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            {isOpen ? <ChevronDown className="w-5 h-5 text-gray-400" /> : <ChevronRight className="w-5 h-5 text-gray-400" />}
+            {isOpen ? <AiOutlineDown className="w-5 h-5 text-gray-400" /> : <AiOutlineRight className="w-5 h-5 text-gray-400" />}
             <CardTitle className="text-lg text-white">{title}</CardTitle>
           </div>
           {severity && <SeverityBadge level={severity} />}
@@ -512,7 +512,7 @@ Please provide a comprehensive validation report assessing causality, common-sen
               >
                 {loading ? (
                   <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    <AiOutlineLoading3Quarters className="w-4 h-4 mr-2 animate-spin" />
                     Analyzing...
                   </>
                 ) : (
@@ -539,7 +539,7 @@ Please provide a comprehensive validation report assessing causality, common-sen
           <Card className="bg-[#262d47] border-gray-700">
             <CardContent className="py-12">
               <div className="flex flex-col items-center justify-center space-y-4">
-                <Loader2 className="w-12 h-12 text-[#4f8cff] animate-spin" />
+                <AiOutlineLoading3Quarters className="w-12 h-12 text-[#4f8cff] animate-spin" />
                 <p className="text-gray-400 text-sm">Running validation analysis...</p>
               </div>
             </CardContent>
@@ -556,7 +556,7 @@ Please provide a comprehensive validation report assessing causality, common-sen
                 size="sm"
                 className="border-gray-600 text-gray-300 hover:bg-gray-800"
               >
-                <Download className="w-4 h-4 mr-2" />
+                <AiOutlineDownload className="w-4 h-4 mr-2" />
                 Export JSON
               </Button>
             </div>
@@ -568,7 +568,7 @@ Please provide a comprehensive validation report assessing causality, common-sen
           <Card className="bg-[#262d47] border-gray-700">
             <CardContent className="py-12">
               <div className="text-center space-y-2">
-                <AlertTriangle className="w-12 h-12 text-gray-600 mx-auto" />
+                <AiOutlineWarning className="w-12 h-12 text-gray-600 mx-auto" />
                 <p className="text-gray-400 text-sm">No analysis results yet</p>
                 <p className="text-gray-500 text-xs">Enter prediction context and click Analyze</p>
               </div>
@@ -587,9 +587,9 @@ const AnalysisHistory = () => {
   const [filterTask, setFilterTask] = useState<string>('all')
 
   // Load history on mount
-  useState(() => {
+  useEffect(() => {
     setHistory(getHistory())
-  })
+  }, [])
 
   const refreshHistory = () => {
     setHistory(getHistory())
@@ -612,7 +612,7 @@ const AnalysisHistory = () => {
       <Card className="bg-[#262d47] border-gray-700">
         <CardContent className="pt-6">
           <div className="flex items-center gap-4">
-            <Filter className="w-5 h-5 text-gray-400" />
+            <AiOutlineFilter className="w-5 h-5 text-gray-400" />
             <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs text-gray-400 mb-1">Risk Level</label>
@@ -651,7 +651,7 @@ const AnalysisHistory = () => {
         <Card className="bg-[#262d47] border-gray-700">
           <CardContent className="py-12">
             <div className="text-center space-y-2">
-              <Clock className="w-12 h-12 text-gray-600 mx-auto" />
+              <AiOutlineClockCircle className="w-12 h-12 text-gray-600 mx-auto" />
               <p className="text-gray-400 text-sm">No analysis history</p>
               <p className="text-gray-500 text-xs">Your completed analyses will appear here</p>
             </div>
@@ -670,13 +670,13 @@ const AnalysisHistory = () => {
                         className="text-gray-400 hover:text-white transition-colors"
                       >
                         {expandedId === entry.id ? (
-                          <ChevronDown className="w-5 h-5" />
+                          <AiOutlineDown className="w-5 h-5" />
                         ) : (
-                          <ChevronRight className="w-5 h-5" />
+                          <AiOutlineRight className="w-5 h-5" />
                         )}
                       </button>
                       <div className="flex items-center gap-2 text-xs text-gray-400">
-                        <Clock className="w-3.5 h-3.5" />
+                        <AiOutlineClockCircle className="w-3.5 h-3.5" />
                         <span>{formatTimestamp(entry.timestamp)}</span>
                       </div>
                       <span className="px-2 py-0.5 bg-gray-700 rounded text-xs text-gray-300">
@@ -695,7 +695,7 @@ const AnalysisHistory = () => {
                       size="sm"
                       className="text-gray-400 hover:text-red-400 hover:bg-red-500/10"
                     >
-                      <Trash2 className="w-4 h-4" />
+                      <AiOutlineDelete className="w-4 h-4" />
                     </Button>
                   </div>
                 </div>
@@ -727,7 +727,7 @@ export default function Home() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-[#4f8cff] rounded-lg flex items-center justify-center">
-                <AlertTriangle className="w-6 h-6 text-white" />
+                <AiOutlineWarning className="w-6 h-6 text-white" />
               </div>
               <h1 className="text-2xl font-bold text-white">BishForgeAI</h1>
             </div>
