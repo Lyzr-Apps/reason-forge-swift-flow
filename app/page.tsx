@@ -23,7 +23,8 @@ import {
   AiOutlineCloseCircle,
   AiOutlineClockCircle,
   AiOutlineDelete,
-  AiOutlineFilter
+  AiOutlineFilter,
+  AiOutlineSetting
 } from 'react-icons/ai'
 
 // Agent ID
@@ -720,9 +721,144 @@ const AnalysisHistory = () => {
   )
 }
 
+// Settings Panel Component
+const SettingsPanel = () => {
+  const [apiKey, setApiKey] = useState('')
+  const [updating, setUpdating] = useState(false)
+  const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null)
+
+  const handleUpdateKey = async () => {
+    if (!apiKey.trim()) {
+      setMessage({ type: 'error', text: 'Please enter an API key' })
+      return
+    }
+
+    if (!apiKey.startsWith('sk-')) {
+      setMessage({ type: 'error', text: 'Invalid API key format. Must start with "sk-"' })
+      return
+    }
+
+    setUpdating(true)
+    setMessage(null)
+
+    try {
+      const response = await fetch('/api/update-env', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ apiKey })
+      })
+
+      const data = await response.json()
+
+      if (data.success) {
+        setMessage({ type: 'success', text: 'API key updated! Please restart the server to apply changes.' })
+        setApiKey('')
+      } else {
+        setMessage({ type: 'error', text: data.error || 'Failed to update API key' })
+      }
+    } catch (error) {
+      setMessage({ type: 'error', text: 'Network error. Please try again.' })
+    }
+
+    setUpdating(false)
+  }
+
+  return (
+    <div className="max-w-2xl mx-auto space-y-6">
+      <Card className="bg-[#262d47] border-gray-700">
+        <CardHeader>
+          <CardTitle className="text-xl text-white">API Configuration</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">
+              Lyzr API Key
+            </label>
+            <Input
+              type="password"
+              placeholder="sk-default-..."
+              className="bg-[#1a1f36] border-gray-600 text-white font-mono"
+              value={apiKey}
+              onChange={(e) => setApiKey(e.target.value)}
+              disabled={updating}
+            />
+            <p className="text-xs text-gray-400 mt-2">
+              Get your API key from <a href="https://studio.lyzr.ai" target="_blank" rel="noopener noreferrer" className="text-[#4f8cff] hover:underline">studio.lyzr.ai</a>
+            </p>
+          </div>
+
+          {message && (
+            <div className={`p-3 rounded-md border ${
+              message.type === 'success'
+                ? 'bg-green-500/10 border-green-500/30 text-green-400'
+                : 'bg-red-500/10 border-red-500/30 text-red-400'
+            }`}>
+              {message.text}
+            </div>
+          )}
+
+          <Button
+            onClick={handleUpdateKey}
+            disabled={updating}
+            className="w-full bg-[#4f8cff] hover:bg-[#4080ef] text-white"
+          >
+            {updating ? (
+              <>
+                <AiOutlineLoading3Quarters className="w-4 h-4 mr-2 animate-spin" />
+                Updating...
+              </>
+            ) : (
+              'Update API Key'
+            )}
+          </Button>
+        </CardContent>
+      </Card>
+
+      <Card className="bg-[#262d47] border-gray-700">
+        <CardHeader>
+          <CardTitle className="text-lg text-white">How to Get a New API Key</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ol className="list-decimal list-inside space-y-2 text-sm text-gray-300">
+            <li>Visit <a href="https://studio.lyzr.ai" target="_blank" rel="noopener noreferrer" className="text-[#4f8cff] hover:underline">studio.lyzr.ai</a></li>
+            <li>Sign in to your Lyzr account</li>
+            <li>Navigate to Settings or API Keys section</li>
+            <li>Generate a new API key</li>
+            <li>Copy the key and paste it above</li>
+            <li>Click "Update API Key"</li>
+            <li>Restart the development server</li>
+          </ol>
+        </CardContent>
+      </Card>
+
+      <Card className="bg-[#262d47] border-gray-700">
+        <CardHeader>
+          <CardTitle className="text-lg text-white">Current Status</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-2 text-sm">
+            <div className="flex items-center justify-between">
+              <span className="text-gray-400">Server</span>
+              <span className="text-green-400">Running on port 3333</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-gray-400">Manager Agent</span>
+              <span className="text-gray-300 font-mono text-xs">698597247551cb7920ffe8ba</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-gray-400">Sub-Agents</span>
+              <span className="text-gray-300">4 configured</span>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  )
+}
+
 // Main Application
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'history'>('dashboard')
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'history' | 'settings'>('dashboard')
 
   return (
     <div className="min-h-screen bg-[#1a1f36]">
@@ -758,6 +894,17 @@ export default function Home() {
                 >
                   History
                 </button>
+                <button
+                  onClick={() => setActiveTab('settings')}
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors flex items-center gap-2 ${
+                    activeTab === 'settings'
+                      ? 'bg-[#4f8cff] text-white'
+                      : 'text-gray-400 hover:text-white'
+                  }`}
+                >
+                  <AiOutlineSetting className="w-4 h-4" />
+                  Settings
+                </button>
               </div>
               <div className="w-10 h-10 bg-[#4f8cff] rounded-full flex items-center justify-center text-white font-semibold text-sm">
                 U
@@ -769,7 +916,9 @@ export default function Home() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-6 py-8">
-        {activeTab === 'dashboard' ? <AnalysisDashboard /> : <AnalysisHistory />}
+        {activeTab === 'dashboard' ? <AnalysisDashboard /> :
+         activeTab === 'history' ? <AnalysisHistory /> :
+         <SettingsPanel />}
       </main>
     </div>
   )
