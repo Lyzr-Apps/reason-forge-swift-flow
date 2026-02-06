@@ -1,0 +1,106 @@
+{
+  "agent_name": "Causality Analyzer Agent",
+  "agent_id": "698596b5e5d25ce3f598cbbe",
+  "agent_purpose": "causality_analysis",
+  "description": "Evaluates whether model outputs reflect causal relationships or mere correlations, identifies proxy variables, confounders, and spurious patterns",
+  "response_schema": {
+    "status": "string",
+    "result": {
+      "causal_assessment": "string",
+      "true_causal_relationships": [
+        "string"
+      ],
+      "correlations_mistaken_as_causation": [
+        "string"
+      ],
+      "proxy_variables": [
+        "string"
+      ],
+      "confounders": [
+        "string"
+      ],
+      "temporal_issues": "string",
+      "risk_level": "string",
+      "recommendations": [
+        "string"
+      ]
+    },
+    "metadata": {
+      "agent_name": "string",
+      "timestamp": "string"
+    }
+  },
+  "example_response": {
+    "status": "success",
+    "result": {
+      "causal_assessment": "The model demonstrates some understanding of potential causal relationships, but there is evidence of conflating correlation with causation and possible reliance on proxy variables. Several input features appear correlated with the outcome without clear evidence of a direct causal mechanism, and key confounders may not be accounted for. Temporal dynamics and causal direction require further scrutiny.",
+      "true_causal_relationships": [
+        "Increased physical activity leading to improved cardiovascular health",
+        "High alcohol consumption causally increasing the risk of liver disease"
+      ],
+      "correlations_mistaken_as_causation": [
+        "Owning a gym membership directly causing weight loss (could be confounded by motivation or socioeconomic status)",
+        "Living in urban areas causing higher incidence of asthma (proxy for pollution exposure rather than urban living itself)"
+      ],
+      "proxy_variables": [
+        "Zip code as a proxy for socioeconomic status",
+        "Gym membership as a proxy for health consciousness"
+      ],
+      "confounders": [
+        "Socioeconomic status",
+        "Pre-existing medical conditions",
+        "Genetic predisposition"
+      ],
+      "temporal_issues": "The model does not effectively distinguish between variables that precede outcomes and those that may occur as a result. Some features may be consequences rather than causes.",
+      "risk_level": "medium",
+      "recommendations": [
+        "Incorporate longitudinal data to better establish temporal ordering and causal direction.",
+        "Explicitly control for potential confounders such as socioeconomic status and baseline health conditions.",
+        "Conduct causal inference analysis (e.g., using propensity score matching or instrumental variable methods) to strengthen the validity of claimed causal relationships.",
+        "Validate model predictions in different contexts to identify spurious patterns or over-reliance on proxies."
+      ]
+    },
+    "metadata": {
+      "agent_name": "Causality Analyzer Agent",
+      "timestamp": "2024-06-29T11:20:00Z"
+    }
+  },
+  "is_actual_tested": true,
+  "test_timestamp": "2026-02-06T07:22:40.024356",
+  "test_message_used": "Hello, provide a sample response",
+  "actual_test_response": {
+    "status": "success",
+    "result": {
+      "causal_assessment": "The model demonstrates some understanding of potential causal relationships, but there is evidence of conflating correlation with causation and possible reliance on proxy variables. Several input features appear correlated with the outcome without clear evidence of a direct causal mechanism, and key confounders may not be accounted for. Temporal dynamics and causal direction require further scrutiny.",
+      "true_causal_relationships": [
+        "Increased physical activity leading to improved cardiovascular health",
+        "High alcohol consumption causally increasing the risk of liver disease"
+      ],
+      "correlations_mistaken_as_causation": [
+        "Owning a gym membership directly causing weight loss (could be confounded by motivation or socioeconomic status)",
+        "Living in urban areas causing higher incidence of asthma (proxy for pollution exposure rather than urban living itself)"
+      ],
+      "proxy_variables": [
+        "Zip code as a proxy for socioeconomic status",
+        "Gym membership as a proxy for health consciousness"
+      ],
+      "confounders": [
+        "Socioeconomic status",
+        "Pre-existing medical conditions",
+        "Genetic predisposition"
+      ],
+      "temporal_issues": "The model does not effectively distinguish between variables that precede outcomes and those that may occur as a result. Some features may be consequences rather than causes.",
+      "risk_level": "medium",
+      "recommendations": [
+        "Incorporate longitudinal data to better establish temporal ordering and causal direction.",
+        "Explicitly control for potential confounders such as socioeconomic status and baseline health conditions.",
+        "Conduct causal inference analysis (e.g., using propensity score matching or instrumental variable methods) to strengthen the validity of claimed causal relationships.",
+        "Validate model predictions in different contexts to identify spurious patterns or over-reliance on proxies."
+      ]
+    },
+    "metadata": {
+      "agent_name": "Causality Analyzer Agent",
+      "timestamp": "2024-06-29T11:20:00Z"
+    }
+  }
+}

@@ -1,0 +1,146 @@
+{
+  "nodes": [
+    {
+      "id": "input_node",
+      "type": "Input",
+      "label": "Prediction Context Input",
+      "nodeCategory": "input",
+      "position": {
+        "x": 100,
+        "y": 300
+      }
+    },
+    {
+      "id": "bishforge_coordinator",
+      "type": "Agent",
+      "label": "BishForge Coordinator",
+      "nodeCategory": "agent",
+      "position": {
+        "x": 400,
+        "y": 300
+      },
+      "data": {
+        "agent_id": "698597247551cb7920ffe8ba",
+        "agent_name": "BishForge Coordinator",
+        "agent_type": "Manager",
+        "description": "Orchestrates the reasoning validation workflow, routes prediction context to specialized sub-agents, and aggregates findings into a comprehensive validation report"
+      }
+    },
+    {
+      "id": "causality_analyzer",
+      "type": "Agent",
+      "label": "Causality Analyzer Agent",
+      "nodeCategory": "agent",
+      "position": {
+        "x": 300,
+        "y": 550
+      },
+      "data": {
+        "agent_id": "698596b5e5d25ce3f598cbbe",
+        "agent_name": "Causality Analyzer Agent",
+        "agent_type": "Sub-Agent",
+        "description": "Evaluates whether model outputs reflect causal relationships or mere correlations, identifies proxy variables, confounders, and spurious patterns"
+      }
+    },
+    {
+      "id": "common_sense_validator",
+      "type": "Agent",
+      "label": "Common-Sense Validator Agent",
+      "nodeCategory": "agent",
+      "position": {
+        "x": 500,
+        "y": 550
+      },
+      "data": {
+        "agent_id": "698596ce7551cb7920ffe8aa",
+        "agent_name": "Common-Sense Validator Agent",
+        "agent_type": "Sub-Agent",
+        "description": "Validates predictions against physical, social, and logical rules; detects contradictions, impossible states, and overconfident conclusions"
+      }
+    },
+    {
+      "id": "generalization_assessor",
+      "type": "Agent",
+      "label": "Generalization Assessor Agent",
+      "nodeCategory": "agent",
+      "position": {
+        "x": 700,
+        "y": 550
+      },
+      "data": {
+        "agent_id": "698596e4e5d25ce3f598cbc3",
+        "agent_name": "Generalization Assessor Agent",
+        "agent_type": "Sub-Agent",
+        "description": "Identifies out-of-distribution risks, adversarial vulnerabilities, and explains potential failure scenarios in unseen data"
+      }
+    },
+    {
+      "id": "safety_reviewer",
+      "type": "Agent",
+      "label": "Safety Reviewer Agent",
+      "nodeCategory": "agent",
+      "position": {
+        "x": 900,
+        "y": 550
+      },
+      "data": {
+        "agent_id": "69859702e17e33c11eed1aa1",
+        "agent_name": "Safety Reviewer Agent",
+        "agent_type": "Sub-Agent",
+        "description": "Detects bias, ethical risks, harmful optimization goals, and recommends guardrails or human oversight requirements"
+      }
+    },
+    {
+      "id": "output_node",
+      "type": "Output",
+      "label": "Validation Report",
+      "nodeCategory": "end",
+      "position": {
+        "x": 700,
+        "y": 300
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "input_node",
+      "target": "bishforge_coordinator"
+    },
+    {
+      "source": "bishforge_coordinator",
+      "target": "causality_analyzer"
+    },
+    {
+      "source": "bishforge_coordinator",
+      "target": "common_sense_validator"
+    },
+    {
+      "source": "bishforge_coordinator",
+      "target": "generalization_assessor"
+    },
+    {
+      "source": "bishforge_coordinator",
+      "target": "safety_reviewer"
+    },
+    {
+      "source": "causality_analyzer",
+      "target": "bishforge_coordinator"
+    },
+    {
+      "source": "common_sense_validator",
+      "target": "bishforge_coordinator"
+    },
+    {
+      "source": "generalization_assessor",
+      "target": "bishforge_coordinator"
+    },
+    {
+      "source": "safety_reviewer",
+      "target": "bishforge_coordinator"
+    },
+    {
+      "source": "bishforge_coordinator",
+      "target": "output_node"
+    }
+  ]
+}

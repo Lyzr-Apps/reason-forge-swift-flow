@@ -1,0 +1,81 @@
+{
+  "agent_name": "Common-Sense Validator Agent",
+  "agent_id": "698596ce7551cb7920ffe8aa",
+  "agent_purpose": "common_sense_validation",
+  "description": "Validates predictions against physical, social, and logical rules; detects contradictions, impossible states, and overconfident conclusions",
+  "response_schema": {
+    "status": "string",
+    "result": {
+      "overall_validity": "string",
+      "physical_violations": [
+        "any"
+      ],
+      "social_implausibilities": [
+        "any"
+      ],
+      "logical_contradictions": [
+        "any"
+      ],
+      "impossible_states": [
+        "any"
+      ],
+      "overconfidence_issues": [
+        "any"
+      ],
+      "domain_constraint_violations": [
+        "any"
+      ],
+      "severity": "string",
+      "recommendations": [
+        "string"
+      ]
+    },
+    "metadata": {
+      "agent_name": "string",
+      "timestamp": "string"
+    }
+  },
+  "example_response": {
+    "status": "success",
+    "result": {
+      "overall_validity": "valid",
+      "physical_violations": [],
+      "social_implausibilities": [],
+      "logical_contradictions": [],
+      "impossible_states": [],
+      "overconfidence_issues": [],
+      "domain_constraint_violations": [],
+      "severity": "low",
+      "recommendations": [
+        "Continue to apply rigorous checks for physical plausibility, logical consistency, and reasonable confidence in future predictions."
+      ]
+    },
+    "metadata": {
+      "agent_name": "Common-Sense Validator Agent",
+      "timestamp": "2024-06-12T17:52:30Z"
+    }
+  },
+  "is_actual_tested": true,
+  "test_timestamp": "2026-02-06T07:23:02.438234",
+  "test_message_used": "Hello, provide a sample response",
+  "actual_test_response": {
+    "status": "success",
+    "result": {
+      "overall_validity": "valid",
+      "physical_violations": [],
+      "social_implausibilities": [],
+      "logical_contradictions": [],
+      "impossible_states": [],
+      "overconfidence_issues": [],
+      "domain_constraint_violations": [],
+      "severity": "low",
+      "recommendations": [
+        "Continue to apply rigorous checks for physical plausibility, logical consistency, and reasonable confidence in future predictions."
+      ]
+    },
+    "metadata": {
+      "agent_name": "Common-Sense Validator Agent",
+      "timestamp": "2024-06-12T17:52:30Z"
+    }
+  }
+}

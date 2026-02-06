@@ -1,0 +1,73 @@
+{
+  "workflow_name": "BishForgeAI Reasoning Validation Platform",
+  "created_at": "2026-02-06T00:00:00Z",
+  "agents": {
+    "manager": {
+      "agent_id": "698597247551cb7920ffe8ba",
+      "name": "BishForge Coordinator",
+      "type": "Manager",
+      "description": "Orchestrates the reasoning validation workflow, routes prediction context to specialized sub-agents, and aggregates findings into a comprehensive validation report",
+      "provider": "OpenAI",
+      "model": "gpt-4.1",
+      "temperature": 0.3,
+      "top_p": 1
+    },
+    "sub_agents": [
+      {
+        "agent_id": "698596b5e5d25ce3f598cbbe",
+        "name": "Causality Analyzer Agent",
+        "type": "Sub-Agent",
+        "description": "Evaluates whether model outputs reflect causal relationships or mere correlations, identifies proxy variables, confounders, and spurious patterns",
+        "provider": "OpenAI",
+        "model": "gpt-4.1",
+        "temperature": 0.2,
+        "top_p": 1
+      },
+      {
+        "agent_id": "698596ce7551cb7920ffe8aa",
+        "name": "Common-Sense Validator Agent",
+        "type": "Sub-Agent",
+        "description": "Validates predictions against physical, social, and logical rules; detects contradictions, impossible states, and overconfident conclusions",
+        "provider": "OpenAI",
+        "model": "gpt-4.1",
+        "temperature": 0.3,
+        "top_p": 1
+      },
+      {
+        "agent_id": "698596e4e5d25ce3f598cbc3",
+        "name": "Generalization Assessor Agent",
+        "type": "Sub-Agent",
+        "description": "Identifies out-of-distribution risks, adversarial vulnerabilities, and explains potential failure scenarios in unseen data",
+        "provider": "OpenAI",
+        "model": "gpt-4.1",
+        "temperature": 0.2,
+        "top_p": 1
+      },
+      {
+        "agent_id": "69859702e17e33c11eed1aa1",
+        "name": "Safety Reviewer Agent",
+        "type": "Sub-Agent",
+        "description": "Detects bias, ethical risks, harmful optimization goals, and recommends guardrails or human oversight requirements",
+        "provider": "OpenAI",
+        "model": "gpt-4.1",
+        "temperature": 0.2,
+        "top_p": 1
+      }
+    ]
+  },
+  "workflow_structure": {
+    "input_node": "Prediction Context Input",
+    "manager_agent": "BishForge Coordinator",
+    "sub_agents_flow": "parallel",
+    "output_node": "Validation Report"
+  },
+  "response_schemas": [
+    "response_schemas/bishforge_coordinator_response.json",
+    "response_schemas/causality_analyzer_agent_response.json",
+    "response_schemas/common_sense_validator_agent_response.json",
+    "response_schemas/generalization_assessor_agent_response.json",
+    "response_schemas/safety_reviewer_agent_response.json"
+  ],
+  "status": "complete",
+  "total_agents": 5
+}
