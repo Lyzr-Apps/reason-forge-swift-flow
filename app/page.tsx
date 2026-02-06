@@ -405,7 +405,12 @@ Please provide a comprehensive validation report assessing causality, common-sen
       }
       saveToHistory(historyEntry)
     } else {
-      setError(response.error || 'Analysis failed. Please try again.')
+      // Enhanced error message for API credits issue
+      let errorMessage = response.error || 'Analysis failed. Please try again.'
+      if (errorMessage.includes('429') || errorMessage.toLowerCase().includes('credits')) {
+        errorMessage = 'API credits exhausted. Please update the LYZR_API_KEY in the .env file with a valid key from https://studio.lyzr.ai'
+      }
+      setError(errorMessage)
     }
 
     setLoading(false)
